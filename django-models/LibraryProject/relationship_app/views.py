@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Book
-from django.views.generic import DetailView
+from django.views.generic.detail import DetailView
 from .models import Library
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
@@ -23,8 +23,8 @@ def list_books(request):
 # Class-based view to display library details and its books
 class LibraryDetailView(DetailView):
     model = Library
-    template_name = 'relationship_app/library_detail.html'
-    context_object_name = 'library'
+    template_name = 'relationship_app/library_detail.html'  # Specify the template to render
+    context_object_name = 'library'  # Name for the object in the template context
 # Login view (Django's built-in LoginView)
 class CustomLoginView(LoginView):
     template_name = 'relationship_app/login.html'
