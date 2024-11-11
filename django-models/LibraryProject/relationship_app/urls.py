@@ -1,11 +1,10 @@
 from django.urls import path
 from . import views
-from .views import CustomLoginView, CustomLogoutView, RegisterView, add_book, edit_book, delete_book
-
+from .views import CustomLoginView, CustomLogoutView, RegisterView, add_book, edit_book, delete_book, LibraryDetailView
 
 urlpatterns = [
     path('books/', views.list_books, name='list_books'),  # Function-based view
-    path('library/<int:pk>/', views.LibraryDetailView.as_view(), name='library_detail'),  # Class-based view
+    path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
