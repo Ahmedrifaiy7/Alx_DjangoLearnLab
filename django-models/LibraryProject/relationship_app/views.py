@@ -13,6 +13,7 @@ from .models import UserProfile
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import BookForm
+from django.contrib.auth import login
 
 # Function-based view to list all books
 def list_books(request):
