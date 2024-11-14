@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book
-from django.views.generic import DetailView
+from django.views.generic.detail import DetailView
 from .models import Library
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
@@ -11,8 +11,8 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseForbidden
 from .models import UserProfile
 from django.contrib.auth.decorators import permission_required
-from django.shortcuts import render, get_object_or_404, redirect
 from .forms import BookForm
+from django.contrib.auth import login
 
 # Function-based view to list all books
 def list_books(request):
@@ -23,8 +23,8 @@ def list_books(request):
 # Class-based view to display library details and its books
 class LibraryDetailView(DetailView):
     model = Library
-    template_name = 'relationship_app/library_detail.html'
-    context_object_name = 'library'
+    template_name = 'relationship_app/library_detail.html'  # Specify the template to render
+    context_object_name = 'library'  # Name for the object in the template context
 # Login view (Django's built-in LoginView)
 class CustomLoginView(LoginView):
     template_name = 'relationship_app/login.html'
@@ -133,3 +133,14 @@ def delete_book(request, book_id):
         book.delete()
         return redirect('book_list')  # Replace with the appropriate view
     return render(request, 'relationship_app/delete_book.html', {'book': book})
+    
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log in the user automatically after registration
+            return redirect('list_books')  # Redirect to a specific page after registration
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
