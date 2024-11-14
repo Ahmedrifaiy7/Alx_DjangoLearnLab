@@ -43,3 +43,4 @@ for group_name, permissions in groups_permissions.items():
             content_type=content_type,
         )
         group.permissions.add(permission)
+admin.site.register(Book)
