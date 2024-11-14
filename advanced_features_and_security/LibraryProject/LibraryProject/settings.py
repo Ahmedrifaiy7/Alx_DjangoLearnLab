@@ -150,4 +150,7 @@ SECURE_HSTS_PRELOAD = True  # Allows HSTS preloading for more security
 # X_FRAME_OPTIONS: Prevents site from being framed, mitigating clickjacking attacks.
 # SECURE_CONTENT_TYPE_NOSNIFF: Prevents MIME type sniffing for security against content-type confusion.
 # SECURE_BROWSER_XSS_FILTER: Enables XSS filtering for added protection against cross-site scripting.
+# settings.py
+
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
