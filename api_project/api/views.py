@@ -9,11 +9,11 @@ from rest_framework.permissions import BasePermission
 
 
 # Create your views here.
-class BookList(ListAPIView):
+class BookList(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-class BookViewSet(ModelViewSet):
+class BookViewSet(viewsets.ModelViewSet):
     """
     A ViewSet for handling CRUD operations on the Book model.
     """
