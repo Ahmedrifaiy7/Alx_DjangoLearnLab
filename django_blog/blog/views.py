@@ -135,3 +135,13 @@ def post_by_tag(request, tag_name):
     def get_success_url(self):
         # Redirect back to the post detail view after successful comment creation
         return reverse_lazy('post-detail', kwargs={'pk': self.kwargs['pk']})
+
+def search_posts(request):
+    query = request.GET.get('q')  # Retrieve search query from GET parameters
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) | Q(content__icontains=query)
+        )  # Filter posts by title or content containing the query
+    else:
+        posts = Post.objects.all()  # Default to all posts if no query
+    return render(request, 'blog/post_list.html', {'posts': posts})
