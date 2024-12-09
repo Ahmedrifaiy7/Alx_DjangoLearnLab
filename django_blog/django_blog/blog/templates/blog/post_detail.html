@@ -1,0 +1,22 @@
+<h1>{{ object.title }}</h1>
+<p>{{ object.content }}</p>
+<p>Author: {{ object.author }}</p>
+<p>Published: {{ object.published_date }}</p>
+{% if user == object.author %}
+<a href="{% url 'post-update' object.id %}">Edit</a>
+<a href="{% url 'post-delete' object.id %}">Delete</a>
+{% endif %}
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+
+<div>
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content }}</p>
+    <p>Tags:
+        {% for tag in post.tags.all %}
+            <a href="{% url 'tagged_posts' tag.name %}">{{ tag.name }}</a>
+        {% empty %}
+            No tags.
+        {% endfor %}
+    </p>
+</div>

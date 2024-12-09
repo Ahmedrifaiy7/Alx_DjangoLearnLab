@@ -1,0 +1,21 @@
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+<p><strong>By:</strong> {{ post.author }} on {{ post.published_date }}</p>
+
+<h2>Comments</h2>
+{% for comment in comments %}
+    <div>
+        <p><strong>{{ comment.author }}:</strong> {{ comment.content }}</p>
+        {% if comment.author == user %}
+            <a href="{% url 'comment-update' comment.pk %}">Edit</a>
+            <a href="{% url 'comment-delete' comment.pk %}">Delete</a>
+        {% endif %}
+    </div>
+{% endfor %}
+
+<h3>Add a Comment</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Comment</button>
+</form>
