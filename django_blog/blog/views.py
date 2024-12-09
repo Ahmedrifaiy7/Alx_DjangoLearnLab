@@ -119,3 +119,19 @@ def post_by_tag(request, tag_name):
     tag = Tag.objects.get(name=tag_name)
     posts = tag.posts.all()
     return render(request, 'blog/tagged_posts.html', {'posts': posts, 'tag_name': tag_name})
+    class CommentCreateView(CreateView):
+    model = Comment
+    fields = ['content']  # Only include the content field for comment creation
+    template_name = 'blog/comment_form.html'
+
+    def form_valid(self, form):
+        # Attach the current post to the comment
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        form.instance.post = post
+        # Attach the logged-in user as the author of the comment
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Redirect back to the post detail view after successful comment creation
+        return reverse_lazy('post-detail', kwargs={'pk': self.kwargs['pk']})
