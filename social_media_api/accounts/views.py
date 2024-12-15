@@ -14,7 +14,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 def get(self, request):
     following_users = request.user.following.all()
-    posts = Post.object.filter(author__in = following.users).order_by('-created_at')
+    posts = Post.object.filter(author__in = following_users).order_by('-created_at')
     serializer = Postserializer(posts, many =True)
     return Response(serializer.data, status = status.HTTP_200_OK)                    
 
