@@ -47,3 +47,7 @@ class LoginSerializer(serializers.Serializer):
         pass  # No object creation for login serializer
 
 get_user_model().objects.create_user
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
