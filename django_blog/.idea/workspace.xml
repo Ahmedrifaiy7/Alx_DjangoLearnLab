@@ -4,35 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e87ba8f-8948-4856-9523-3e561450f2b0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/forms.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/migrations/0002_userprofile.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/migrations/0003_comment.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/base.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/comment_confirm_delete.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/comment_form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/post_confirm_delete.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/post_detail.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/post_form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/post_list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/post_search_results.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/profile.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/register.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/search_results.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/templates/blog/tagged_posts.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/blog/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_blog/manage.py" beforeDir="false" />
-    </list>
+    <list default="true" id="3e87ba8f-8948-4856-9523-3e561450f2b0" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -119,6 +91,7 @@
       <updated>1733684747699</updated>
       <workItem from="1733684748777" duration="8842000" />
       <workItem from="1733773975116" duration="4042000" />
+      <workItem from="1734208440804" duration="95000" />
     </task>
     <servers />
   </component>
