@@ -4,12 +4,32 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate
-from .serializers import RegisterSerializer, UserSerializer
+from .serializers import RegisterSerializer, UserSerializer, LoginSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import User
+from django.contrib.auth import get_user_model
 
+User = get_user_model()  # Get the User model
+
+class UserListCreateView(generics.GenericAPIView):
+    queryset = User.objects.all()  # Access all users (modify based on permissions)
+    serializer_class = UserSerializer  # Use your UserSerializer
+    permission_classes = []  # No permissions by default (modify as needed)
+
+    def get(self, request):
+        # Get all users (can be filtered further)
+        users = self.get_queryset()
+        serializer = self.get_serializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        # Create a new user
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
