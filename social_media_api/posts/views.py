@@ -93,3 +93,18 @@ def unlike_post(request, pk):
             return Response({"error": "You haven't liked this post"}, status=status.HTTP_400_BAD_REQUEST)
     except Post.DoesNotExist:
         return Response({"error": "Post does not exist"}, status=status.HTTP_404_NOT_FOUND)
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def user_feed(request):
+    """
+    View to get the feed of posts from users the current user is following.
+    """
+    # Get the users the current user is following
+    followed_users = request.user.following.all()
+
+    # Fetch posts from these users, ordered by creation date (most recent first)
+    posts = Post.objects.filter(user__in=followed_users).order_by('-created_at')
+
+    # Serialize the posts and return them
+    serialized_posts = PostSerializer(posts, many=True)
+    return Response(serialized_posts.data)
