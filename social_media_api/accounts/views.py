@@ -10,10 +10,16 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import User
 
-class UserListView(generics.ListAPIView):
-    queryset = CustomUser.objects.all()  # Ensure we get all users
-    serializer_class = CustomUserSerializer  # You need to create this serializer
+class UserListView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]  # Ensure the user is authenticated
+    
+    def get(self, request, *args, **kwargs):
+        """
+        Retrieve a list of all users.
+        """
+        users = CustomUser.objects.all()
+        serializer = CustomUserSerializer(users, many=True)
+        return Response(serializer.data)
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
