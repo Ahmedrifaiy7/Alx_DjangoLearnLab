@@ -74,3 +74,4 @@ def unfollow_user(request, user_id):
         return Response(status=status.HTTP_200_OK)
     except User.DoesNotExist:
         return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+permissions.IsAuthenticated", "CustomUser.objects.all()
