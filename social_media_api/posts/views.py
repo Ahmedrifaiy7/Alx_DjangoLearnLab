@@ -83,8 +83,7 @@ def unlike_post(request, pk):
             return Response({"error": "You haven't liked this post"}, status=status.HTTP_400_BAD_REQUEST)
     except Post.DoesNotExist:
         return Response({"error": "Post does not exist"}, status=status.HTTP_404_NOT_FOUND)
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
+
 def get(request):
     """
     View to get the feed of posts from users the current user is following.
