@@ -34,6 +34,22 @@ class PostDetailView(generics.RetrieveAPIView):
         pk = self.kwargs['pk']
         return get_object_or_404(self.queryset, pk=pk)
 
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)  # Get or create a token
+
+        return Response({
+            'token': token.key,
+            'user_id': user.id,
+            'username': user.username
+        }, status=status.HTTP_200_OK)
+
+
 class CreatePostView(generics.CreateAPIView):
     serializer_class = PostSerializer
     authentication_classes = [TokenAuthentication]
