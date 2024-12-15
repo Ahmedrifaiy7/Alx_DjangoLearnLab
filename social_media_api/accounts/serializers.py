@@ -45,3 +45,5 @@ class LoginSerializer(serializers.Serializer):
         # token = Token.objects.create(user=user)
         # return user, token  # If returning both user and token
         pass  # No object creation for login serializer
+
+get_user_model().objects.create_user
