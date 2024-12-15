@@ -60,24 +60,14 @@ class FeedView(generics.ListAPIView):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_post(request, pk):
-    try:
-        post = Post.objects.get(pk=pk)
-        user = request.user
-        if not Like.objects.filter(user=user, post=post).exists():
-            Like.objects.create(user=user, post=post)
-            if user != post.author: # Don't create notification if user likes own post
-                Notification.objects.create(
-                    recipient=post.author,
-                    actor=user,
-                    verb="liked your post",
-                    target_content_type=ContentType.objects.get_for_model(Post),
-                    target_object_id=post.id,
-                )
-            return Response(status=status.HTTP_201_CREATED)
-        else:
-            return Response({"error": "You already liked this post"}, status=status.HTTP_400_BAD_REQUEST)
-    except Post.DoesNotExist:
-        return Response({"error": "Post does not exist"}, status=status.HTTP_404_NOT_FOUND)
+  post = get_object_or_404(Post, pk=pk)  # Correct use of get_object_or_404 to get the post by primary key
+    # Create or get the Like object for the current user and post
+    like, created = Like.objects.get_or_create(user=request.user, post=post)
+    
+    if created:
+        return Response({"detail": "Post liked successfully."}, status=201)  # Liked the post
+    else:
+        return Response({"detail": "You have already liked this post."}, status=200)  # Already liked the post
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
