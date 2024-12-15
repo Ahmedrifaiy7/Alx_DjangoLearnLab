@@ -4,9 +4,10 @@ from .serializers import BookSerializer
 from django.shortcuts import render
 from datetime import datetime
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework
 
 # Create your views here.
 class BookListView(generics.ListAPIView):
