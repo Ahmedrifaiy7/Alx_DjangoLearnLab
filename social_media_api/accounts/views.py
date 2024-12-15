@@ -13,32 +13,46 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-class PostViewSet(ModelViewSet):
+class PostListView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        following_users = user.following.all()  # Get the actual User objects
+        queryset = Post.objects.filter(author__in=following_users).order_by('-created_at')
+        return queryset
+
+class PostDetailView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        pk = self.kwargs['pk']
+        return get_object_or_404(self.queryset, pk=pk)
+
+class CreatePostView(generics.CreateAPIView):
+    serializer_class = PostSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-class CommentViewSet(ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+class UpdatePostView(generics.UpdateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
-class FeedView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        # Fetch the current user's following list
-        following_users = request.user.following.all()
-        # Get posts from users the current user is following, ordered by creation date
-        feed_posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
-        serializer = PostSerializer(feed_posts, many=True)
-        return Response(serializer.data)
+class DeletePostView(generics.DestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -51,4 +65,3 @@ def unfollow_user(request, user_id):
     except User.DoesNotExist:
         return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
 permissions.IsAuthenticated", "CustomUser.objects.all()
-Post.objects.filter(author__in=following_users).order_by
