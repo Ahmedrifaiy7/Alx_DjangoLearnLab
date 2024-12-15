@@ -10,12 +10,12 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
-            password=validated_data['password']
+            password=validated_data['password'],
+            **validated_data  # Pass additional validated data to user creation (optional)
         )
         # Optionally create a token on user creation (adjust as needed)
-        # token = Token.objects.create(user=user)
-        # return user, token  # If returning both user and token
-        return user
+        token = Token.objects.create(user=user)
+        return user, token  # Return both user and token for further processing
 
     class Meta:
         model = User
