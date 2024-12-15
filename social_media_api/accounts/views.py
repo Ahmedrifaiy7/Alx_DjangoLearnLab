@@ -75,3 +75,4 @@ def unfollow_user(request, user_id):
     except User.DoesNotExist:
         return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
 permissions.IsAuthenticated", "CustomUser.objects.all()
+Post.objects.filter(author__in=following_users).order_by
