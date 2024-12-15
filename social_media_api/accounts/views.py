@@ -11,47 +11,44 @@ from rest_framework.permissions import IsAuthenticated
 from .models import User
 from django.contrib.auth import get_user_model
 
-User = get_user_model()  # Get the User model
+User = get_user_model()
 
-class UserListCreateView(generics.GenericAPIView):
-    queryset = User.objects.all()  # Access all users (modify based on permissions)
-    serializer_class = UserSerializer  # Use your UserSerializer
-    permission_classes = []  # No permissions by default (modify as needed)
+class UserListCreateView(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny] # Allow anyone to create a user
 
-    def get(self, request):
-        # Get all users (can be filtered further)
-        users = self.get_queryset()
-        serializer = self.get_serializer(users, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
 
     def post(self, request):
-        # Create a new user
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-class RegisterView(APIView):
-    permission_classes = [AllowAny]
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user) # get or create a token
+
+        return Response({
+            'token': token.key,
+            'user_id': user.id,
+            'username': user.username
+        }, status=status.HTTP_200_OK)
+
+class LogoutView(generics.GenericAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            token, _ = Token.objects.get_or_create(user=user)
-            return Response({"token": token.key})
-        return Response(serializer.errors, status=400)
-
-class LoginView(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
-            token, _ = Token.objects.get_or_create(user=user)
-            return Response({"token": token.key})
-        return Response({"error": "Invalid credentials"}, status=400)
+        try:
+            request.user.auth_token.delete()
+            return Response({"message": "Successfully logged out."}, status=status.HTTP_200_OK)
+        except AttributeError:
+            return Response({"message": "No active token to delete."}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
