@@ -18,10 +18,10 @@ class PostListView(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
+    def get(self):
         user = self.request.user
         following_users = user.following.all()  # Get the actual User objects
-        queryset = Post.objects.filter(author__in=following_users).order_by('-created_at')
+        post = Post.objects.filter(author__in=following_users).order_by('-created_at')
         return queryset
 
 class PostDetailView(generics.RetrieveAPIView):
